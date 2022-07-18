@@ -16,7 +16,7 @@ Specifically, the features we've added allow for better scaling of training on T
    ```sh
    cd stylegan2-flax-tpu
    ```
-3. Install [Jax](https://github.com/google/jax#installation) accoring to your platform.
+3. Install [Jax](https://github.com/google/jax#installation) according to your platform.
 4. Install requirements:
    ```sh
    pip install -r requirements.txt
