@@ -1,0 +1,14 @@
+flaxmodels==0.1.1
+flax==0.4.1
+jax==0.3.14
+tensorflow==2.4.1
+optax==0.0.9
+numpy
+tensorflow-datasets
+argparse
+wandb
+tqdm
+dill
+h5py
+dataclasses
+tqdm
