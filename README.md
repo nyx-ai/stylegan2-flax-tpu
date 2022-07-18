@@ -1,4 +1,7 @@
 # StyleGAN2 Flax TPU
+
+![These Cookies Do Not Exist](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)
+
 This implementation is adapted from the [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/flaxmodels/stylegan2) codebase by [Matthias Wright](https://github.com/matthias-wright).
 
 Specifically, the features we've added allow for better scaling of training on TPUs:
