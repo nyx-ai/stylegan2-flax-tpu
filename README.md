@@ -27,6 +27,22 @@ Specifically, the features we've added allow for better scaling of training on T
    pip install -r requirements.txt
    ```
 
+## 🖼 Generate images
+
+Download checkpoints from the [latest release](https://github.com/nyx-ai/stylegan2-flax-tpu/releases).
+
+```
+python generate_images.py \
+   --checkpoint checkpoints/cookie-256.pkl \
+   --seeds 0 42 420 666 \
+   --truncation_psi 0.7 \
+   --out_path generated_images
+```
+
+Check the Colab notebook for more examples: 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+
+
 ## 💾 Preparing Datasets
 Add your images into a folder `/path/to/image_dir`:
 ```
