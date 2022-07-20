@@ -3,8 +3,8 @@
 
 This implementation is adapted from the [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/flaxmodels/stylegan2) codebase by [Matthias Wright](https://github.com/matthias-wright).
 
-Specifically, the features we've added allow for better scaling of training on TPUs:
-* 🏭 Enable data-parallel training on TPU pods (tested on TPU v4 generation)
+Specifically, the features we've added allow for better scaling of [StyleGAN2](https://arxiv.org/abs/1912.04958) training on TPUs:
+* 🏭 Enable data-parallel training on TPU pods (tested on TPU v2 to v4 generations)
 * 💾 Google Cloud Storage (GCS) integration/dataset sharding between workers
 * 🏖 Quality-of-life improvements (e.g. improved W&B logging)
 
@@ -27,9 +27,9 @@ Specifically, the features we've added allow for better scaling of training on T
    pip install -r requirements.txt
    ```
 
-## 🖼 Generate images
+## 🖼 Generate Images
 
-Download the pretrained models from the [latest release](https://github.com/nyx-ai/stylegan2-flax-tpu/releases).
+We released four 256x256 pretrained models: cookie, cheesecake, sushi and cocktail. Download them from the [latest release](https://github.com/nyx-ai/stylegan2-flax-tpu/releases).
 
 ```
 python generate_images.py \
@@ -43,7 +43,7 @@ Check the Colab notebook for more examples:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb)
 
 
-## 💾 Preparing Datasets
+## ⚙️ Train Custom Models
 Add your images into a folder `/path/to/image_dir`:
 ```
 /path/to/image_dir/
@@ -59,7 +59,6 @@ python dataset_utils/images_to_tfrecords.py --image_dir /path/to/image_dir/ --da
 ```
 For more detailed instructions please refer to [this README](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2#preparing-datasets-for-training).
 
-## ⚙️ Train
 The following command trains with 128 resolution and batch size of 8.
 ```sh
 python main.py --data_dir /path/to/tfrecord
@@ -68,4 +67,4 @@ Read more about suitable training parameters [here](https://github.com/matthias-
 
 ## 🙏 Acknowledgements
 * This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation.
-* The project received generous support from Google's TPU Research Cloud (TRC).
+* The project received generous support from [Google's TPU Research Cloud (TRC)](https://sites.research.google/trc/about/).
