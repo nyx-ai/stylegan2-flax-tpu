@@ -20,7 +20,7 @@ Cherry-picked results, check out the Colab notebook to generate your own! [![Ope
 
 ## Why not diffusion models? 🤔
 
-Diffusion models are all the rage these days: [DALL·E 2](https://openai.com/dall-e-2/), [Craiyon](https://www.craiyon.com/) (formerly DALL-E mini), [ruDALL-E](https://rudalle.ru/en/)... Why not go in this direction?
+Diffusion models are all the rage these days: [DALL·E 2](https://openai.com/dall-e-2/), [Craiyon](https://www.craiyon.com/) (formerly DALL·E mini), [ruDALL-E](https://rudalle.ru/en/)... Why not go in this direction?
 
 ### Realism vs control
 
