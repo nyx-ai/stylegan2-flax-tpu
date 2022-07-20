@@ -44,7 +44,23 @@ We were able to train the provided models in less than 10h each using a single T
 
 [FID (Fréchet inception distance)](https://en.wikipedia.org/wiki/Fr%C3%A9chet_inception_distance) is a metric used to assess the quality of images created by a generative model.
 
-In comparison, Craiyon is being training on a v3-256 TPU pod which means 32x the resources (albeit using the previous TPU generation) and the training [has been going on for over a month](https://wandb.ai/dalle-mini/dalle-mini/reports/DALL-E-Mega-Training-Journal--VmlldzoxODMxMDI2)!
+In comparison, Craiyon is being training on a v3-256 TPU pod which means 32x the resources (albeit using the previous TPU generation) and the training [has been going on for over a month](https://wandb.ai/dalle-mini/dalle-mini/reports/DALL-E-Mega-Training-Journal--VmlldzoxODMxMDI2).
+
+### Result comparison
+
+No cherry-picking!
+
+Ours
+
+![bdc76775-2c9f-4110-a2f1-fcbc07a588e7](https://user-images.githubusercontent.com/140592/179997085-53c0cb55-35ba-4333-b1fd-10df2ddbb238.png)
+
+[Craiyon](https://www.craiyon.com/) ("a pile of cookies on a plate")
+
+![a-pile-of-cookies-on-a-plate](https://user-images.githubusercontent.com/140592/179996330-6fe568d2-bc83-4755-b556-6059e1fdd231.jpeg)
+
+[DALL·E 2](https://openai.com/dall-e-2/) ("a pile of cookies on a plate")
+
+<img width="2320" alt="Screenshot 2022-07-20 at 15 31 55" src="https://user-images.githubusercontent.com/140592/179996470-66c56b77-8305-4b25-92c0-f9570970a7b3.png">
 
 ## Acknowledgements 🙏
 
