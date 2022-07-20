@@ -1,5 +1,3 @@
-# StyleGAN2 Flax TPU
-
 ## This Food Does Not Exist 🍪🍰🍣🍹
 
 Cherry-picked results, check out the Colab notebook to generate your own! [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb)
