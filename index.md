@@ -1,5 +1,9 @@
 ## This Food Does Not Exist 🍪🍰🍣🍹
 
+**We have trained four StyleGAN2 models to generate food pictures. The images below are purely synthetic!**
+
+The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU training as well as the [pretrained models](https://github.com/nyx-ai/stylegan2-flax-tpu/releases) are openly available.
+
 `cookie-256.pkl`
 
 ![cookies](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)
@@ -20,7 +24,7 @@ Cherry-picked results, check out the Colab notebook to generate your own: [![Ope
 
 Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://github.com/nyx-ai/stylegan2-flax-tpu)
 
-## Why not diffusion models? 🤔
+## Why not DALL·E/diffusion models? 🤔
 
 Diffusion models are all the rage these days: [DALL·E 2](https://openai.com/dall-e-2/), [Craiyon](https://www.craiyon.com/) (formerly DALL·E mini), [ruDALL-E](https://rudalle.ru/en/)... Why not go in this direction?
 
@@ -42,3 +46,4 @@ In comparison, Craiyon is being training on a v3-256 TPU pod which means 32x the
 
 * This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation.
 * The project received generous support from Google's TPU Research Cloud (TRC).
+* The image datasets were built using the [LAION5B index](https://laion.ai/blog/laion-5b/)
