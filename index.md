@@ -45,6 +45,6 @@ In comparison, Craiyon is being training on a v3-256 TPU pod which means 32x the
 ## Acknowledgements 🙏
 
 * This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation.
-* The project received generous support from Google's TPU Research Cloud (TRC).
+* The project received generous support from [Google's TPU Research Cloud (TRC)](https://sites.research.google/trc/about/).
 * The image datasets were built using the [LAION5B index](https://laion.ai/blog/laion-5b/)
 * We are grateful to [Weights & Biases](https://wandb.ai/) for preserving our sanity
