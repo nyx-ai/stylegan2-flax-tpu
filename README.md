@@ -40,7 +40,7 @@ python generate_images.py \
 ```
 
 Check the Colab notebook for more examples: 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb)
 
 
 ## 💾 Preparing Datasets
