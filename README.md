@@ -8,6 +8,10 @@ Specifically, the features we've added allow for better scaling of [StyleGAN2](h
 * 💾 Google Cloud Storage (GCS) integration/dataset sharding between workers
 * 🏖 Quality-of-life improvements (e.g. improved W&B logging)
 
+# Web Demo
+
+Integrated into [Huggingface Spaces 🤗](https://huggingface.co/spaces) using [Gradio](https://github.com/gradio-app/gradio). Try out the Web Demo [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/nyx-ai/stylegan2-flax-tpu)
+
 **[This food does not exist! Click to see more samples 🍪🍰🍣🍹](https://nyx-ai.github.io/stylegan2-flax-tpu/)**
 
 [![These Cookies Do Not Exist](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)](https://nyx-ai.github.io/stylegan2-flax-tpu/)
