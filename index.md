@@ -1,4 +1,4 @@
-## This Food Does Not Exist! 🍪🍰🍣🍹
+## This Food Does Not Exist 🍪🍰🍣🍹
 
 `cookie-256.pkl`
 
@@ -18,7 +18,7 @@
 
 Cherry-picked results, check out the Colab notebook to generate your own: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb)
 
-Or train your own model: https://github.com/nyx-ai/stylegan2-flax-tpu
+Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://github.com/nyx-ai/stylegan2-flax-tpu)
 
 ## Why not diffusion models? 🤔
 
