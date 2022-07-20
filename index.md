@@ -26,7 +26,9 @@ Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://
 
 ## Why not DALL·E/diffusion models? 🤔
 
-Diffusion models are all the rage these days: [DALL·E 2](https://openai.com/dall-e-2/), [Craiyon](https://www.craiyon.com/) (formerly DALL·E mini), [ruDALL-E](https://rudalle.ru/en/)... Why not go in this direction?
+Recent methods like diffusion and auto-regressive models are all the rage these days: [DALL·E 2](https://openai.com/dall-e-2/), [Craiyon](https://www.craiyon.com/) (formerly DALL·E mini), [ruDALL-E](https://rudalle.ru/en/)... Why not go in this direction?
+
+**TL;DR: cos we're poor 🤷‍♂️**
 
 ### Realism vs control
 
@@ -40,11 +42,13 @@ We were able to train the provided models in less than 10h each using a single T
 
 ![Training plots](static/fid_pretrained.png)
 
+[FID (Fréchet inception distance)](https://en.wikipedia.org/wiki/Fr%C3%A9chet_inception_distance) is a metric used to assess the quality of images created by a generative model.
+
 In comparison, Craiyon is being training on a v3-256 TPU pod which means 32x the resources (albeit using the previous TPU generation) and the training [has been going on for over a month](https://wandb.ai/dalle-mini/dalle-mini/reports/DALL-E-Mega-Training-Journal--VmlldzoxODMxMDI2)!
 
 ## Acknowledgements 🙏
 
-* This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation.
-* The project received generous support from [Google's TPU Research Cloud (TRC)](https://sites.research.google/trc/about/).
+* This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation
+* The project received generous support from [Google's TPU Research Cloud (TRC)](https://sites.research.google/trc/about/)
 * The image datasets were built using the [LAION5B index](https://laion.ai/blog/laion-5b/)
 * We are grateful to [Weights & Biases](https://wandb.ai/) for preserving our sanity
