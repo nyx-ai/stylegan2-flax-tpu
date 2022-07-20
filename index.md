@@ -1,6 +1,4 @@
-## This Food Does Not Exist 🍪🍰🍣🍹
-
-Cherry-picked results, check out the Colab notebook to generate your own! [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb)
+## This Food Does Not Exist! 🍪🍰🍣🍹
 
 `cookie-256.pkl`
 
@@ -8,15 +6,19 @@ Cherry-picked results, check out the Colab notebook to generate your own! [![Ope
 
 `cheesecake-256.pkl`
 
-![cheesecake](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)
+![cheesecake](https://user-images.githubusercontent.com/140592/179959973-df75351d-db07-4ff9-8f9f-97334bab20a8.png)
 
 `cocktail-256.pkl`
 
-![cocktail](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)
+![cocktail](https://user-images.githubusercontent.com/140592/179956003-8db513d2-b0b1-4a1f-8f15-827b56bedb25.png)
 
 `sushi-256.pkl`
 
-![sushi](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)
+![sushi](https://user-images.githubusercontent.com/140592/179958220-45324fe7-90d8-49dd-94be-877b03201160.png)
+
+Cherry-picked results, check out the Colab notebook to generate your own: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb)
+
+Or train your own model: https://github.com/nyx-ai/stylegan2-flax-tpu
 
 ## Why not diffusion models? 🤔
 
