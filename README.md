@@ -8,7 +8,7 @@ Specifically, the features we've added allow for better scaling of training on T
 * 💾 Google Cloud Storage (GCS) integration/dataset sharding between workers
 * 🏖 Quality-of-life improvements (e.g. improved W&B logging)
 
-**[This food does not exist! Click to see more 🍪🍰🍣🍹](https://nyx-ai.github.io/stylegan2-flax-tpu/)**
+**[This food does not exist! Click to see more samples 🍪🍰🍣🍹](https://nyx-ai.github.io/stylegan2-flax-tpu/)**
 
 [![These Cookies Do Not Exist](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)](https://nyx-ai.github.io/stylegan2-flax-tpu/)
 
@@ -29,7 +29,7 @@ Specifically, the features we've added allow for better scaling of training on T
 
 ## 🖼 Generate images
 
-Download checkpoints from the [latest release](https://github.com/nyx-ai/stylegan2-flax-tpu/releases).
+Download the pretrained models from the [latest release](https://github.com/nyx-ai/stylegan2-flax-tpu/releases).
 
 ```
 python generate_images.py \
