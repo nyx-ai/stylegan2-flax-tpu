@@ -4,6 +4,8 @@
 
 The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU training as well as the [pretrained models](https://github.com/nyx-ai/stylegan2-flax-tpu/releases) are openly available.
 
+<iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+
 `cookie-256.pkl`
 
 ![cookies](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)
@@ -20,15 +22,13 @@ The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU train
 
 ![sushi](https://user-images.githubusercontent.com/140592/179958220-45324fe7-90d8-49dd-94be-877b03201160.png)
 
-Cherry-picked results, check out the Colab notebook to generate your own: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb)
-
-Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://github.com/nyx-ai/stylegan2-flax-tpu)
+- 📝 Cherry-picked results, check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own!
+- 🛠 Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://github.com/nyx-ai/stylegan2-flax-tpu)
+- **🐦 Follow our Generative AI research: [@NyxAI_Lab](https://twitter.com/NyxAI_Lab)**
 
 ## Why not DALL·E/diffusion models? 🤔
 
 Recent methods like diffusion and auto-regressive models are all the rage these days: [DALL·E 2](https://openai.com/dall-e-2/), [Craiyon](https://www.craiyon.com/) (formerly DALL·E mini), [ruDALL-E](https://rudalle.ru/en/)... Why not go in this direction?
-
-**TL;DR: cos we're poor 🤷‍♂️**
 
 ### Realism vs control
 
@@ -61,8 +61,6 @@ Ours
 [DALL·E 2](https://openai.com/dall-e-2/) ("a pile of cookies on a plate")
 
 <img width="2320" alt="Screenshot 2022-07-20 at 15 31 55" src="https://user-images.githubusercontent.com/140592/179996470-66c56b77-8305-4b25-92c0-f9570970a7b3.png">
-
-<iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 
 
 ## Acknowledgements 🙏
