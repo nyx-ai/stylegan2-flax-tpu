@@ -62,9 +62,8 @@ Ours
 
 <img width="2320" alt="Screenshot 2022-07-20 at 15 31 55" src="https://user-images.githubusercontent.com/140592/179996470-66c56b77-8305-4b25-92c0-f9570970a7b3.png">
 
-{% note %}
-🐦 Follow our Generative AI research on Twitter: [@NyxAI_Lab](https://twitter.com/NyxAI_Lab)
-{% endnote %}
+<iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+
 
 ## Acknowledgements 🙏
 
