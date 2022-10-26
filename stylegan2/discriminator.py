@@ -259,7 +259,7 @@ class DiscriminatorBlock(nn.Module):
                                           dtype=self.dtype,
                                           rng=init_key)(residual)
 
-            x = (x + residual) * np.sqrt(0.5, dtype=x.dtype)
+            x = (x + residual) * np.sqrt(0.5)
         return x
 
 

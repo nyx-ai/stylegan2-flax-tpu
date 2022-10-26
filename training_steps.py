@@ -52,10 +52,10 @@ def main_step_G(state_G, state_D, batch, z_latent1, z_latent2, metrics, mixing_p
     new_state_G = state_G.apply_gradients(grads=grads, moving_stats=new_state['moving_stats'])
     
     if dynamic_scale:
-        new_state_G = new_state_G.replace(opt_state=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+        new_state_G = new_state_G.replace(opt_state=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                       new_state_G.opt_state,
                                                                       state_G.opt_state),
-                                          params=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+                                          params=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                    new_state_G.params,
                                                                    state_G.params))
         metrics['G_scale'] = dynamic_scale.scale
@@ -100,10 +100,10 @@ def regul_step_G(state_G, batch, z_latent, pl_noise, pl_mean, metrics, config, r
     new_state_G = state_G.apply_gradients(grads=grads)
     
     if dynamic_scale:
-        new_state_G = new_state_G.replace(opt_state=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+        new_state_G = new_state_G.replace(opt_state=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                       new_state_G.opt_state,
                                                                       state_G.opt_state),
-                                          params=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+                                          params=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                    new_state_G.params,
                                                                    state_G.params))
         metrics['G_regul_scale'] = dynamic_scale.scale
@@ -167,10 +167,10 @@ def main_step_D(state_G, state_D, batch, z_latent1, z_latent2, metrics, mixing_p
     new_state_D = state_D.apply_gradients(grads=grads)
     
     if dynamic_scale:
-        new_state_D = new_state_D.replace(opt_state=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+        new_state_D = new_state_D.replace(opt_state=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                       new_state_D.opt_state,
                                                                       state_D.opt_state),
-                                          params=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+                                          params=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                    new_state_D.params,
                                                                    state_D.params))
         metrics['D_scale'] = dynamic_scale.scale
@@ -202,10 +202,10 @@ def regul_step_D(state_D, batch, metrics, config):
     new_state_D = state_D.apply_gradients(grads=grads)
     
     if dynamic_scale:
-        new_state_D = new_state_D.replace(opt_state=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+        new_state_D = new_state_D.replace(opt_state=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                       new_state_D.opt_state,
                                                                       state_D.opt_state),
-                                          params=jax.tree_multimap(functools.partial(jnp.where, is_fin),
+                                          params=jax.tree_util.tree_map(functools.partial(jnp.where, is_fin),
                                                                    new_state_D.params,
                                                                    state_D.params))
         metrics['D_regul_scale'] = dynamic_scale.scale

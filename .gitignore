@@ -161,6 +161,10 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# vim
+*.swp
+*.swo
+
 # other
 generated_images
 logging
@@ -169,3 +173,6 @@ data
 train.sh
 wandb
 test_*.py
+profile
+jax_cache
+mem.prof
