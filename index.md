@@ -2,13 +2,13 @@
 
 **We trained StyleGAN2 models to generate food pictures. The images below are all synthetic!**
 
-The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU training as well as the [pretrained models](https://github.com/nyx-ai/stylegan2-flax-tpu/releases) are openly available.
-
-<iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
-
 This work is done in partnership with the [Food & You](https://www.foodandyou.org/) project by the [Digital Epidemiology Lab](https://www.digitalepidemiologylab.org/) at [EPFL](https://www.epfl.ch/en/). In this context, we are researching the potential of synthetic data augmention for vision tasks.
 
 Follow our Generative AI research: [📘 GitHub](https://github.com/nyx-ai) [🐦 Twitter](https://twitter.com/NyxAI_Lab) [👨‍💼 LinkedIn](https://www.linkedin.com/company/nyxai) [📷 Instagram](https://www.instagram.com/NyxAI_Lab)
+
+The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU training as well as the [pretrained models](https://github.com/nyx-ai/stylegan2-flax-tpu/releases) are openly available.
+
+<iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 
 ## Multi-class 512x512 model (v0.2, October 2022) 🆕
 
