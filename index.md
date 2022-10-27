@@ -4,7 +4,7 @@
 
 This work is done in partnership with the [Food & You](https://www.foodandyou.org/) project by the [Digital Epidemiology Lab](https://www.digitalepidemiologylab.org/) at [EPFL](https://www.epfl.ch/en/). In this context, we are researching the potential of synthetic data augmention for vision tasks.
 
-Follow our Generative AI research: [📘 GitHub](https://github.com/nyx-ai) [🐦 Twitter](https://twitter.com/NyxAI_Lab) [👨‍💼 LinkedIn](https://www.linkedin.com/company/nyxai) [📷 Instagram](https://www.instagram.com/NyxAI_Lab)
+This research is part of the technology underlying our AI-generated photography platform [Nyx.gallery](https://nyx.gallery/). You can also follow our work on [🐦 Twitter](https://twitter.com/NyxAI_Lab).
 
 The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU training as well as the [pretrained models](https://github.com/nyx-ai/stylegan2-flax-tpu/releases) are openly available.
 
@@ -94,3 +94,5 @@ Ours
 * The project received generous support from [Google's TPU Research Cloud (TRC)](https://sites.research.google/trc/about/)
 * The image datasets were built using the [LAION5B index](https://laion.ai/blog/laion-5b/)
 * We are grateful to [Weights & Biases](https://wandb.ai/) for preserving our sanity
+
+**Follow our Generative AI research: [📘 GitHub](https://github.com/nyx-ai) [🐦 Twitter](https://twitter.com/NyxAI_Lab) [📩 Newsletter](http://eepurl.com/ia0lfP) [👨‍💼 LinkedIn](https://www.linkedin.com/company/nyxai) [📷 Instagram](https://www.instagram.com/NyxAI_Lab)**
