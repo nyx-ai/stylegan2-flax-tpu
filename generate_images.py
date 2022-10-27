@@ -42,7 +42,14 @@ def generate_images(args):
     for seed in tqdm(args.seeds):
         rng = jax.random.PRNGKey(seed)
         z_latent = jax.random.normal(rng, shape=(1, config.z_dim))
-        image = generator_apply(params_ema_G, jax.lax.stop_gradient(z_latent), None)
+
+        labels = None
+        if config.c_dim > 0:
+            labels = jax.random.randint(rng, shape=(1,), minval=0, maxval=config.c_dim)
+            labels = jax.nn.one_hot(labels, num_classes=config.c_dim)
+            labels = jnp.reshape(labels, (1, config.c_dim))
+
+        image = generator_apply(params_ema_G, jax.lax.stop_gradient(z_latent), labels)
         image = (image - jnp.min(image)) / (jnp.max(image) - jnp.min(image))
 
         Image.fromarray(np.uint8(np.clip(image[0] * 255, 0, 255))).save(os.path.join(args.out_path, f'{seed}.png'))
