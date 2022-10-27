@@ -12,7 +12,7 @@ The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU train
 
 ## Multi-class 512x512 model 🆕
 
-**Release [v0.2](https://github.com/nyx-ai/stylegan2-flax-tpu/releases/tag/v0.2), October 2022**
+**[Release v0.2](https://github.com/nyx-ai/stylegan2-flax-tpu/releases/tag/v0.2), October 2022**
 
 We are releasing a new and much improved model:
 
@@ -21,6 +21,8 @@ We are releasing a new and much improved model:
 - Trained for much longer: 8 days at 256x256 then 28 days at 512x512 instead of 10 hours
 - Trained on more data: 558k 512x512 images instead of 100k 256x256 images
 
+`food-512.pkl`
+
 ![v0.2 model samples](https://user-images.githubusercontent.com/140592/198279827-f50459f3-9d31-47ce-9380-5e535c612700.png)
 
 🍒 The sample above are cherry-picked: check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own, or [train your own model](https://github.com/nyx-ai/stylegan2-flax-tpu).
@@ -28,10 +30,10 @@ We are releasing a new and much improved model:
 
 ## Single-class 256x256 models
 
-**Release [v0.1](https://github.com/nyx-ai/stylegan2-flax-tpu/releases/tag/v0.1), July 2022**
+**[Release v0.1](https://github.com/nyx-ai/stylegan2-flax-tpu/releases/tag/v0.1), July 2022**
 
-*The models below were released in July 2022. Each model was trained on a single food class: cookie, cheescake, cocktail and sushi. 
-They can still be used with the v0.2 code.*
+The models below were released in July 2022. Each model was trained on a single food class: cookie, cheescake, cocktail and sushi. 
+They can still be used with the v0.2 code.
 
 `cookie-256.pkl`
 
