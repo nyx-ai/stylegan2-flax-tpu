@@ -17,36 +17,6 @@ Specifically, the features we've added allow for better scaling of [StyleGAN2](h
   <summary>v0.2</summary>
   
 * Better support for class-conditional training, adding per-class moving average statistics to generator
-* Training data can now be split into multiple tfrecord files (can be either in data_dir or in a subdirectory `tfrecords`). Still requires `dataset_info.json` in `--data_dir` location (containing `width`, `heigh`, `num_examples`, and list of `classes` if class-conditional). 
-* Renaming arg `--load_from_pkl` => `--load_from_ckpt`
-* Added `--num_steps` argument to specify a fixed number of steps to run
-* Added `--early_stopping_after_steps` argument to stop after n steps of no FID improvement
-* Removal of `--bf16` flag and consolidation with `--mixed_precision`. 
-* Allow layer freezing with `--freeze_g` and `--freeze_d` arguments
-* Add `--fmap_max` argument, in order to have better control over feature map dimensions
-* Allow disabling of generator and discriminator regularization
-* Change checkpointing behaviour from saving every 2k steps to saving every 10k steps and keeping 2 best checkpoints (see `--save_every` and `--keep_n_checkpoints`)
-* Add `--metric_cache_location` in order to cache dataset statistics (currently for FID only)
-* Log TPU memory usage, shoutout to ayaka14732 for help (see also https://github.com/ayaka14732/jax-smi)
-* Visualise model architecture & parameters on startup
-* Improve W&B logging (e.g. adding eval snapshots with fixed latents)
-* Experimental: Add jax profiling
-  
-</details>
-<details>
-  <summary>v0.1</summary>
-  
-  * Enable training on TPUs
-  * Google Cloud Storage (GCS) integration
-  * Several quality-of-life improvements
-  
-</details>
-
-## 🏗 Changelog
-<details>
-  <summary>v0.2</summary>
-  
-* Better support for class-conditional training, adding per-class moving average statistics to generator
 * Training data can now be split into multiple tfrecord files (can be either in `--data_dir` or in a subdirectory `tfrecords`). Still requires `dataset_info.json` in `--data_dir` location (containing `width`, `heigh`, `num_examples`, and list of `classes` if class-conditional). 
 * Renaming arg `--load_from_pkl` => `--load_from_ckpt`
 * Added `--num_steps` argument to specify a fixed number of steps to run
