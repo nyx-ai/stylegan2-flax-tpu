@@ -1,0 +1,2 @@
+flax==0.6.0
+flaxmodels==0.1.2
