@@ -1,10 +1,32 @@
-## This Food Does Not Exist 🍪🍰🍣🍹
+## This Food Does Not Exist 🍪🍰🍣🍹🍔
 
-**We have trained four StyleGAN2 models to generate food pictures. The images below are purely synthetic!**
+**We have trained StyleGAN2 models to generate food pictures. The images below are all purely synthetic!**
+
+Follow our Generative AI research: [📘 GitHub](https://github.com/nyx-ai) [🐦 Twitter](https://twitter.com/NyxAI_Lab) [👨‍💼 LinkedIn](https://www.linkedin.com/company/nyxai) [📷 Instagram](https://www.instagram.com/NyxAI_Lab)
 
 The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU training as well as the [pretrained models](https://github.com/nyx-ai/stylegan2-flax-tpu/releases) are openly available.
 
 <iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+
+## Multi-class 512x512 model (v0.2, October 2022) 🆕
+
+We are releasing a new and much improved model:
+
+- Single 5-class model (burger/cheesecake/cocktail/cookie/sushi) instead of multiple 1-class models
+- Resolution of 512x512 instead of 256x256
+- Trained for much longer: 8 days at 256x256 then 28 days at 512x512 instead of 10 hours
+- Trained on more data: 558k 512x512 images instead of 100k 256x256 images
+
+![v0.2 model samples](https://user-images.githubusercontent.com/140592/198279827-f50459f3-9d31-47ce-9380-5e535c612700.png)
+
+- 📝 Cherry-picked results, check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own!
+- 🛠 Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://github.com/nyx-ai/stylegan2-flax-tpu)
+
+
+## Single-class 256x256 models (v0.1, July 2022)
+
+*The models below were released in July 2022. Each model was trained on a single food class: cookie, cheescake, cocktail and sushi. 
+They can still be used with the v0.2 code.*
 
 `cookie-256.pkl`
 
@@ -21,10 +43,6 @@ The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU train
 `sushi-256.pkl`
 
 ![sushi](https://user-images.githubusercontent.com/140592/179958220-45324fe7-90d8-49dd-94be-877b03201160.png)
-
-- 📝 Cherry-picked results, check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own!
-- 🛠 Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://github.com/nyx-ai/stylegan2-flax-tpu)
-- **🐦 Follow our Generative AI research: [@NyxAI_Lab](https://twitter.com/NyxAI_Lab)**
 
 ## Why not DALL·E/diffusion models? 🤔
 
