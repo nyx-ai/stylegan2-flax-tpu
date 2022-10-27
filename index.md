@@ -1,26 +1,27 @@
 ## This Food Does Not Exist 🍪🍰🍣🍹🍔
 
-**We have trained StyleGAN2 models to generate food pictures. The images below are all purely synthetic!**
-
-Follow our Generative AI research: [📘 GitHub](https://github.com/nyx-ai) [🐦 Twitter](https://twitter.com/NyxAI_Lab) [👨‍💼 LinkedIn](https://www.linkedin.com/company/nyxai) [📷 Instagram](https://www.instagram.com/NyxAI_Lab)
+**We trained StyleGAN2 models to generate food pictures. The images below are all synthetic!**
 
 The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU training as well as the [pretrained models](https://github.com/nyx-ai/stylegan2-flax-tpu/releases) are openly available.
 
 <iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 
+This work is done in partnership with the [Food & You](https://www.foodandyou.org/) project by the [Digital Epidemiology Lab](https://www.digitalepidemiologylab.org/) at [EPFL](https://www.epfl.ch/en/). In this context, we are researching the potential of synthetic data augmention for vision tasks.
+
+Follow our Generative AI research: [📘 GitHub](https://github.com/nyx-ai) [🐦 Twitter](https://twitter.com/NyxAI_Lab) [👨‍💼 LinkedIn](https://www.linkedin.com/company/nyxai) [📷 Instagram](https://www.instagram.com/NyxAI_Lab)
+
 ## Multi-class 512x512 model (v0.2, October 2022) 🆕
 
 We are releasing a new and much improved model:
 
-- Single 5-class model (burger/cheesecake/cocktail/cookie/sushi) instead of multiple 1-class models
+- Single 5-class model (burger/cheesecake/cocktail/cookie/sushi) instead of 1-class models
 - Resolution of 512x512 instead of 256x256
 - Trained for much longer: 8 days at 256x256 then 28 days at 512x512 instead of 10 hours
 - Trained on more data: 558k 512x512 images instead of 100k 256x256 images
 
 ![v0.2 model samples](https://user-images.githubusercontent.com/140592/198279827-f50459f3-9d31-47ce-9380-5e535c612700.png)
 
-- 📝 Cherry-picked results, check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own!
-- 🛠 Or train your own model: [https://github.com/nyx-ai/stylegan2-flax-tpu](https://github.com/nyx-ai/stylegan2-flax-tpu)
+🍒 The sample above are cherry-picked: check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own, or [train your own model](https://github.com/nyx-ai/stylegan2-flax-tpu).
 
 
 ## Single-class 256x256 models (v0.1, July 2022)
@@ -85,5 +86,6 @@ Ours
 
 * This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation
 * The project received generous support from [Google's TPU Research Cloud (TRC)](https://sites.research.google/trc/about/)
+* This project is done in partnership with the [Food & You project](https://www.foodandyou.org/) by the [Digital Epidemiology Lab](https://www.digitalepidemiologylab.org/) at [EPFL](https://www.epfl.ch/en/)
 * The image datasets were built using the [LAION5B index](https://laion.ai/blog/laion-5b/)
 * We are grateful to [Weights & Biases](https://wandb.ai/) for preserving our sanity
