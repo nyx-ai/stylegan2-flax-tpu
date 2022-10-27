@@ -227,13 +227,13 @@ def get_total_device_memory():
             memory_usage, memory_usage_perc, device_id, process_id = match.groups()
             device_data = dict(device_id=int(device_id), process_id=int(process_id), memory_usage_mb=float(memory_usage),
                                memory_usage_perc=float(memory_usage_perc))
-            device_data['total_device_memory_mb'] = (1 / (device_data['memory_usage_perc']/100))*device_data['memory_usage_mb']
+            device_data['total_device_memory_mb'] = (1 / (device_data['memory_usage_perc']/100))*device_data['memory_usage_mb'] if device_data['memory_usage_perc'] > 0 else 0
             memory_data['devices'].append(device_data)
             total_memory_all_devices += device_data['total_device_memory_mb']
         else:
             # device list is over
             break
-    memory_data['memory_usage_perc'] = 100 * memory_data['memory_usage_mb'] / total_memory_all_devices
+    memory_data['memory_usage_perc'] = 100 * memory_data['memory_usage_mb'] / total_memory_all_devices if total_memory_all_devices > 0 else 0
     memory_data['total_memory_all_devices_mb'] = total_memory_all_devices
     logger.debug(f'Total memory used: {memory_data["memory_usage_mb"]:.5f}MB (took {timer() - ts:.2f}s)')
     return memory_data
