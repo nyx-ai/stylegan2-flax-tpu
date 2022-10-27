@@ -8,9 +8,9 @@ Specifically, the features we've added allow for better scaling of [StyleGAN2](h
 * 💾 Google Cloud Storage (GCS) integration/dataset sharding between workers
 * 🏖 Quality-of-life improvements (e.g. improved W&B logging)
 
-**[This food does not exist! Click to see more samples 🍪🍰🍣🍹](https://nyx-ai.github.io/stylegan2-flax-tpu/)**
+**[This food does not exist! Click to see more samples 🍪🍰🍣🍹🍔](https://nyx-ai.github.io/stylegan2-flax-tpu/)**
 
-[![These Cookies Do Not Exist](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)](https://nyx-ai.github.io/stylegan2-flax-tpu/)
+![This food does not exist](https://user-images.githubusercontent.com/140592/198327038-b73c1a5c-297b-43c8-8638-8191fe961802.png)
 
 ## 🏗 Changelog
 <details>
