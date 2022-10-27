@@ -10,7 +10,9 @@ The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU train
 
 <iframe src="https://ghbtns.com/github-btn.html?user=nyx-ai&repo=stylegan2-flax-tpu&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 
-## Multi-class 512x512 model (v0.2, October 2022) 🆕
+## Multi-class 512x512 model 🆕
+
+**Release [v0.2](https://github.com/nyx-ai/stylegan2-flax-tpu/releases/tag/v0.2), October 2022**
 
 We are releasing a new and much improved model:
 
@@ -24,7 +26,9 @@ We are releasing a new and much improved model:
 🍒 The sample above are cherry-picked: check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own, or [train your own model](https://github.com/nyx-ai/stylegan2-flax-tpu).
 
 
-## Single-class 256x256 models (v0.1, July 2022)
+## Single-class 256x256 models
+
+**Release [v0.1](https://github.com/nyx-ai/stylegan2-flax-tpu/releases/tag/v0.1), July 2022**
 
 *The models below were released in July 2022. Each model was trained on a single food class: cookie, cheescake, cocktail and sushi. 
 They can still be used with the v0.2 code.*
@@ -86,6 +90,5 @@ Ours
 
 * This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation
 * The project received generous support from [Google's TPU Research Cloud (TRC)](https://sites.research.google/trc/about/)
-* This project is done in partnership with the [Food & You project](https://www.foodandyou.org/) by the [Digital Epidemiology Lab](https://www.digitalepidemiologylab.org/) at [EPFL](https://www.epfl.ch/en/)
 * The image datasets were built using the [LAION5B index](https://laion.ai/blog/laion-5b/)
 * We are grateful to [Weights & Biases](https://wandb.ai/) for preserving our sanity
