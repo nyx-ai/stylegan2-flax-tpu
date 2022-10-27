@@ -94,7 +94,7 @@ python main.py --data_dir /path/to/tfrecord
 ```
 Read more about suitable training parameters [here](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2#training).
 
-Most of the training has been done on TPU VMs. At the time of writing Colab is offering an older generation of TPUs. Therefore training (and especially compilation) may be significantly slower. If you still wish to train on Colab, the following may get you started: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KyJFofaA_SRzIYC4zs2mtQ790KpntdXL?usp=sharing)
+Our experiments have been run and tested on TPU VMs (generation v2 to v4). At the time of writing Colab is offering an older generation of TPUs. Therefore training (and especially compilation) may be significantly slower. If you still wish to train on Colab, the following may get you started: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KyJFofaA_SRzIYC4zs2mtQ790KpntdXL?usp=sharing)
 
 ## 🙏 Acknowledgements
 * This work is based on Matthias Wright's [stylegan2](https://github.com/matthias-wright/flaxmodels/tree/main/training/stylegan2) implementation.
