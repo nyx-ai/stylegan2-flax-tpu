@@ -14,16 +14,16 @@ The [code](https://github.com/nyx-ai/stylegan2-flax-tpu) optimized for TPU train
 
 **[Release v0.2](https://github.com/nyx-ai/stylegan2-flax-tpu/releases/tag/v0.2), October 2022**
 
-We are releasing a new and much improved model:
+![v0.2 model samples](https://user-images.githubusercontent.com/140592/198279827-f50459f3-9d31-47ce-9380-5e535c612700.png)
+
+`food-512.pkl`
+
+We have released a new and much improved model:
 
 - Single 5-class model (burger/cheesecake/cocktail/cookie/sushi) instead of 1-class models
 - Resolution of 512x512 instead of 256x256
 - Trained for much longer: 8 days at 256x256 then 28 days at 512x512 instead of 10 hours
 - Trained on more data: 558k 512x512 images instead of 100k 256x256 images
-
-`food-512.pkl`
-
-![v0.2 model samples](https://user-images.githubusercontent.com/140592/198279827-f50459f3-9d31-47ce-9380-5e535c612700.png)
 
 🍒 The sample above are cherry-picked: check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own, or [train your own model](https://github.com/nyx-ai/stylegan2-flax-tpu).
 
@@ -35,21 +35,21 @@ We are releasing a new and much improved model:
 The models below were released in July 2022. Each model was trained on a single food class: cookie, cheescake, cocktail and sushi. 
 They can still be used with the v0.2 code.
 
-`cookie-256.pkl`
-
 ![cookies](https://user-images.githubusercontent.com/140592/179369671-32cf8c67-a3d5-43a4-a200-1ba91e736ae2.png)
 
-`cheesecake-256.pkl`
+`cookie-256.pkl`
 
 ![cheesecake](https://user-images.githubusercontent.com/140592/179959973-df75351d-db07-4ff9-8f9f-97334bab20a8.png)
 
-`cocktail-256.pkl`
+`cheesecake-256.pkl`
 
 ![cocktail](https://user-images.githubusercontent.com/140592/179956003-8db513d2-b0b1-4a1f-8f15-827b56bedb25.png)
 
-`sushi-256.pkl`
+`cocktail-256.pkl`
 
 ![sushi](https://user-images.githubusercontent.com/140592/179958220-45324fe7-90d8-49dd-94be-877b03201160.png)
+
+`sushi-256.pkl`
 
 ## Why not DALL·E/diffusion models? 🤔
 
