@@ -1,14 +1,9 @@
 import tensorflow as tf
-import tensorflow_datasets as tfds
 import jax
 import flax
 import numpy as np
-from PIL import Image
 import os
-from typing import Sequence
-from tqdm import tqdm
 import json
-from tqdm import tqdm
 import logging
 
 logger = logging.getLogger(__name__)
@@ -24,7 +19,7 @@ def prefetch(dataset, n_prefetch):
     return ds_iter
 
 
-def get_data(data_dir, img_size, img_channels, num_classes, num_local_devices, batch_size, shuffle_buffer=1000):
+def get_data(data_dir, img_size, img_channels, num_classes, num_local_devices, batch_size, allow_resolution_mismatch=False, shuffle_buffer=1000):
     """
 
     Args:
@@ -51,16 +46,13 @@ def get_data(data_dir, img_size, img_channels, num_classes, num_local_devices, b
         height = tf.cast(example['height'], dtype=tf.int64)
         width = tf.cast(example['width'], dtype=tf.int64)
         channels = tf.cast(example['channels'], dtype=tf.int64)
-
         image = tf.io.decode_raw(example['image'], out_type=tf.uint8)
         image = tf.reshape(image, shape=[height, width, channels])
-
         image = tf.cast(image, dtype='float32')
+
         image = tf.image.resize(image, size=[img_size, img_size], method='bicubic', antialias=True)
         image = tf.image.random_flip_left_right(image)
-        
         image = (image - 127.5) / 127.5
-        
         label = tf.one_hot(example['label'], num_classes)
         return {'image': image, 'label': label}
 
@@ -75,7 +67,23 @@ def get_data(data_dir, img_size, img_channels, num_classes, num_local_devices, b
     with tf.io.gfile.GFile(os.path.join(data_dir, 'dataset_info.json'), 'r') as fin:
         dataset_info = json.load(fin)
 
-    ds = tf.data.TFRecordDataset(filenames=os.path.join(data_dir, 'dataset.tfrecords'))
+    # check resolution mismatch
+    if not allow_resolution_mismatch:
+        if 'width' in dataset_info and 'height' in dataset_info:
+            msg = 'Requested resolution {img_size} is different from input data {input_size}.' \
+                  ' Provide the flag --allow_resolution_mismatch in order to allow this behaviour.'
+            assert dataset_info['width'] == img_size, msg.format(img_size=img_size, input_size=dataset_info['width'])
+            assert dataset_info['height'] == img_size, msg.format(img_size=img_size, input_size=dataset_info['height'])
+        else:
+            raise Exception(f'dataset_info.json does not contain keys "height" or "width". Ignore by providing --allow_resolution_mismatch.')
+
+    for folder in [data_dir, os.path.join(data_dir, 'tfrecords')]:
+        ckpt_files = tf.io.gfile.glob(os.path.join(folder, '*.tfrecords'))
+        if len(ckpt_files) > 0:
+            break
+    else:
+        raise FileNotFoundError(f'Could not find any tfrecord files in {data_dir}')
+    ds = tf.data.TFRecordDataset(filenames=ckpt_files)
     ds = ds.shard(jax.process_count(), jax.process_index())
     ds = ds.shuffle(min(dataset_info['num_examples'], shuffle_buffer))
     ds = ds.map(pre_process, tf.data.AUTOTUNE)

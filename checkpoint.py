@@ -4,6 +4,10 @@ import os
 import builtins
 from jax._src.lib import xla_client
 import tensorflow as tf
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 # Hack: this is the module reported by this object.
@@ -24,7 +28,7 @@ def pickle_load(filename):
     return pickled
 
 
-def save_checkpoint(ckpt_dir, state_G, state_D, params_ema_G, pl_mean, config, step, epoch, fid_score=None, keep=2):
+def save_checkpoint(ckpt_dir, state_G, state_D, params_ema_G, pl_mean, config, step, epoch, fid_score=None, keep_best=2, is_best=False):
     """
     Saves checkpoint.
 
@@ -38,7 +42,8 @@ def save_checkpoint(ckpt_dir, state_G, state_D, params_ema_G, pl_mean, config, s
         step (int): Current step.
         epoch (int): Current epoch.
         fid_score (float): FID score corresponding to the checkpoint.
-        keep (int): Number of checkpoints to keep.
+        keep_best (int): Number of best checkpoints to keep.
+        is_best (bool): Whether this is a new best model
     """
     state_dict = {'state_G': flax.jax_utils.unreplicate(state_G),
                   'state_D': flax.jax_utils.unreplicate(state_D),
@@ -49,15 +54,22 @@ def save_checkpoint(ckpt_dir, state_G, state_D, params_ema_G, pl_mean, config, s
                   'step': step,
                   'epoch': epoch}
 
-    pickle_dump(state_dict, os.path.join(ckpt_dir, f'ckpt_{step}.pickle'))
-    ckpts = tf.io.gfile.glob(os.path.join(ckpt_dir, '*.pickle'))
-    if len(ckpts) > keep:
-        modified_times = {}
-        for ckpt in ckpts:
-            stats = tf.io.gfile.stat(ckpt)
-            modified_times[ckpt] = stats.mtime_nsec
-        oldest_ckpt = sorted(modified_times, key=modified_times.get)[0]
-        tf.io.gfile.remove(oldest_ckpt)
+    if is_best:
+        f_name = f'ckpt_{step}_best.pickle'
+    else:
+        f_name = f'ckpt_{step}.pickle'
+    f_path = os.path.join(ckpt_dir, f_name)
+    logger.info(f'Saving checkpoint for step {step:,} to {f_path}')
+    pickle_dump(state_dict, f_path)
+    if is_best:
+        ckpts = tf.io.gfile.glob(os.path.join(ckpt_dir, '*_best.pickle'))
+        if len(ckpts) > keep_best:
+            modified_times = {}
+            for ckpt in ckpts:
+                stats = tf.io.gfile.stat(ckpt)
+                modified_times[ckpt] = stats.mtime_nsec
+            oldest_ckpt = sorted(modified_times, key=modified_times.get)[0]
+            tf.io.gfile.remove(oldest_ckpt)
 
 
 def load_checkpoint(filename):

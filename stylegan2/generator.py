@@ -1,13 +1,14 @@
 import numpy as np
-import jax
 from jax import random
 import jax.numpy as jnp
 import flax.linen as nn
-from typing import Any, Tuple, List
+from typing import Any, Tuple
 import h5py
 from . import ops
 from stylegan2 import utils
+import logging
 
+logger = logging.getLogger(__name__)
 
 URLS = {'afhqcat': 'https://www.dropbox.com/s/lv1r0bwvg5ta51f/stylegan2_generator_afhqcat.h5?dl=1',
         'afhqdog': 'https://www.dropbox.com/s/px6ply9hv0vdwen/stylegan2_generator_afhqdog.h5?dl=1',
@@ -80,27 +81,27 @@ class MappingNetwork(nn.Module):
         rng (jax.random.PRNGKey): PRNG for initialization.
     """
     # Dimensionality
-    z_dim: int=512
-    c_dim: int=0
-    w_dim: int=512
-    embed_features: int=None
-    layer_features: int=512
+    z_dim: int = 512
+    c_dim: int = 0
+    w_dim: int = 512
+    embed_features: int = None
+    layer_features: int = 512
 
     # Layers
-    num_ws: int=18
-    num_layers: int=8
-    
+    num_ws: int = 18
+    num_layers: int = 8
+
     # Pretrained
-    pretrained: str=None
-    param_dict: h5py.Group=None
-    ckpt_dir: str=None
+    pretrained: str = None
+    param_dict: h5py.Group = None
+    ckpt_dir: str = None
 
     # Internal details
-    activation: str='leaky_relu'
-    lr_multiplier: float=0.01
-    w_avg_beta: float=0.995
-    dtype: str='float32'
-    rng: Any=random.PRNGKey(0)
+    activation: str = 'leaky_relu'
+    lr_multiplier: float = 0.01
+    w_avg_beta: float = 0.995
+    dtype: str = 'float32'
+    rng: Any = random.PRNGKey(0)
 
     def setup(self):
         self.embed_features_ = self.embed_features
@@ -124,10 +125,18 @@ class MappingNetwork(nn.Module):
             self.layer_features_ = self.w_dim
 
         if self.param_dict_ is not None and 'w_avg' in self.param_dict_:
-            self.w_avg = self.variable('moving_stats', 'w_avg', lambda *_ : jnp.array(self.param_dict_['w_avg']), [self.w_dim])
+            if self.c_dim > 1:
+                self.w_avg = self.variable('moving_stats', 'w_avg', lambda *_: jnp.array(self.param_dict_['w_avg']),
+                                           [self.c_dim, self.w_dim])
+            else:
+                self.w_avg = self.variable('moving_stats', 'w_avg', lambda *_: jnp.array(self.param_dict_['w_avg']),
+                                           [self.w_dim])
         else:
-            self.w_avg = self.variable('moving_stats', 'w_avg', jnp.zeros, [self.w_dim])
-       
+            if self.c_dim > 1:
+                self.w_avg = self.variable('moving_stats', 'w_avg', jnp.zeros, [self.c_dim, self.w_dim])
+            else:
+                self.w_avg = self.variable('moving_stats', 'w_avg', jnp.zeros, [self.w_dim])
+
     @nn.compact
     def __call__(self, z, c=None, truncation_psi=1, truncation_cutoff=None, skip_w_avg_update=False, train=True):
         """
@@ -179,19 +188,32 @@ class MappingNetwork(nn.Module):
 
         # Update moving average of W.
         if self.w_avg_beta is not None and train and not skip_w_avg_update:
-            self.w_avg.value = self.w_avg_beta * self.w_avg.value + (1 - self.w_avg_beta) * jnp.mean(x, axis=0)
+            if self.c_dim > 1:
+                # Compute class-based averages
+                sum_x = c.T.dot(x)
+                label_count = jnp.expand_dims(jnp.sum(c, axis=0), axis=0).T
+                x_avg = jnp.where(label_count != 0, sum_x / label_count, sum_x)
+                self.w_avg.value = self.w_avg_beta * self.w_avg.value + (1 - self.w_avg_beta) * x_avg
+            else:
+                self.w_avg.value = self.w_avg_beta * self.w_avg.value + (1 - self.w_avg_beta) * jnp.mean(x, axis=0)
 
         # Broadcast.
         if self.num_ws is not None:
             x = jnp.repeat(jnp.expand_dims(x, axis=-2), repeats=self.num_ws, axis=-2)
 
         # Apply truncation.
-        if truncation_psi != 1:
-            assert self.w_avg_beta is not None
-            if self.num_ws is None or truncation_cutoff is None:
-                x = truncation_psi * x + (1 - truncation_psi) * self.w_avg.value
-            else:
-                x[:, :truncation_cutoff] = truncation_psi * x[:, :truncation_cutoff] + (1 - truncation_psi) * self.w_avg.value
+        assert self.w_avg_beta is not None
+        if self.c_dim > 1:
+            w_avg = c.dot(self.w_avg.value)  # select w_avg by classes present
+            if self.num_ws is not None:
+                w_avg = jnp.repeat(jnp.expand_dims(w_avg, axis=1), repeats=self.num_ws, axis=1)  # broadcast to num_ws
+        else:
+            w_avg = self.w_avg.value
+        # mix w_avg together with x
+        if self.num_ws is None or truncation_cutoff is None:
+            x = truncation_psi * x + (1 - truncation_psi) * w_avg
+        else:
+            x[:, :truncation_cutoff] = truncation_psi * x[:, :truncation_cutoff] + (1 - truncation_psi) * w_avg
 
         return x
 
@@ -220,16 +242,16 @@ class SynthesisLayer(nn.Module):
     kernel: int
     layer_idx: int
     res: int
-    lr_multiplier: float=1
-    up: bool=False
-    activation: str='leaky_relu'
-    use_noise: bool=True
-    resample_kernel: Tuple=(1, 3, 3, 1)
-    fused_modconv: bool=False
-    param_dict: h5py.Group=None
-    clip_conv: float=None
-    dtype: str='float32'
-    rng: Any=random.PRNGKey(0)
+    lr_multiplier: float = 1
+    up: bool = False
+    activation: str = 'leaky_relu'
+    use_noise: bool = True
+    resample_kernel: Tuple = (1, 3, 3, 1)
+    fused_modconv: bool = False
+    param_dict: h5py.Group = None
+    clip_conv: float = None
+    dtype: str = 'float32'
+    rng: Any = random.PRNGKey(0)
 
     def setup(self):
         if self.param_dict is not None:
@@ -256,7 +278,7 @@ class SynthesisLayer(nn.Module):
             (tensor): Output tensor of shape [N, H', W', fmaps].
         """
         assert noise_mode in ['const', 'random', 'none']
-        
+
         linear_rng, conv_rng = random.split(self.rng)
         # Affine transformation to obtain style variable.
         s = ops.LinearLayer(in_features=dlatents[:, self.layer_idx].shape[1],
@@ -273,26 +295,26 @@ class SynthesisLayer(nn.Module):
         if self.param_dict is None:
             noise_strength = jnp.zeros(())
         else:
-            noise_strength = jnp.array(self.param_dict['noise_strength']) 
-        noise_strength = self.param(name='noise_strength', init_fn=lambda *_ : noise_strength)
+            noise_strength = jnp.array(self.param_dict['noise_strength'])
+        noise_strength = self.param(name='noise_strength', init_fn=lambda *_: noise_strength)
 
         # Weight and bias for convolution operation.
         w_shape = [self.kernel, self.kernel, x.shape[3], self.fmaps]
         w, b = ops.get_weight(w_shape, self.lr_multiplier, True, self.param_dict, 'conv', conv_rng)
-        w = self.param(name='weight', init_fn=lambda *_ : w)
-        b = self.param(name='bias', init_fn=lambda *_ : b)
+        w = self.param(name='weight', init_fn=lambda *_: w)
+        b = self.param(name='bias', init_fn=lambda *_: b)
         w = ops.equalize_lr_weight(w, self.lr_multiplier)
         b = ops.equalize_lr_bias(b, self.lr_multiplier)
 
-        x = ops.modulated_conv2d_layer(x=x, 
-                                       w=w, 
-                                       s=s, 
-                                       fmaps=self.fmaps, 
-                                       kernel=self.kernel, 
-                                       up=self.up, 
-                                       resample_kernel=self.resample_kernel, 
+        x = ops.modulated_conv2d_layer(x=x,
+                                       w=w,
+                                       s=s,
+                                       fmaps=self.fmaps,
+                                       kernel=self.kernel,
+                                       up=self.up,
+                                       resample_kernel=self.resample_kernel,
                                        fused_modconv=self.fused_modconv)
-        
+
         if self.use_noise and noise_mode != 'none':
             if noise_mode == 'const':
                 noise = self.noise_const.value
@@ -323,14 +345,14 @@ class ToRGBLayer(nn.Module):
     """
     fmaps: int
     layer_idx: int
-    kernel: int=1
-    lr_multiplier: float=1
-    fused_modconv: bool=False
-    param_dict: h5py.Group=None
-    clip_conv: float=None
-    dtype: str='float32'
-    rng: Any=random.PRNGKey(0)
-    
+    kernel: int = 1
+    lr_multiplier: float = 1
+    fused_modconv: bool = False
+    param_dict: h5py.Group = None
+    clip_conv: float = None
+    dtype: str = 'float32'
+    rng: Any = random.PRNGKey(0)
+
     @nn.compact
     def __call__(self, x, y, dlatents):
         """
@@ -338,7 +360,7 @@ class ToRGBLayer(nn.Module):
 
         Args:
             x (tensor): Input tensor of shape [N, H, W, C].
-            y (tensor): Image of shape [N, H', W', fmaps]. 
+            y (tensor): Image of shape [N, H', W', fmaps].
             dlatents (tensor): Intermediate latents (W) of shape [N, num_ws, w_dim].
 
         Returns:
@@ -358,12 +380,13 @@ class ToRGBLayer(nn.Module):
         # Weight and bias for convolution operation.
         w_shape = [self.kernel, self.kernel, x.shape[3], self.fmaps]
         w, b = ops.get_weight(w_shape, self.lr_multiplier, True, self.param_dict, 'conv', self.rng)
-        w = self.param(name='weight', init_fn=lambda *_ : w)
-        b = self.param(name='bias', init_fn=lambda *_ : b)
+        w = self.param(name='weight', init_fn=lambda *_: w)
+        b = self.param(name='bias', init_fn=lambda *_: b)
         w = ops.equalize_lr_weight(w, self.lr_multiplier)
         b = ops.equalize_lr_bias(b, self.lr_multiplier)
-        
-        x = ops.modulated_conv2d_layer(x, w, s, fmaps=self.fmaps, kernel=self.kernel, demodulate=False, fused_modconv=self.fused_modconv)
+
+        x = ops.modulated_conv2d_layer(x, w, s, fmaps=self.fmaps, kernel=self.kernel, demodulate=False,
+                                       fused_modconv=self.fused_modconv)
         x += b.astype(x.dtype)
         x = ops.apply_activation(x, activation='linear')
         if self.clip_conv is not None:
@@ -394,17 +417,17 @@ class SynthesisBlock(nn.Module):
     """
     fmaps: int
     res: int
-    num_layers: int=2
-    num_channels: int=3
-    lr_multiplier: float=1
-    activation: str='leaky_relu'
-    use_noise: bool=True
-    resample_kernel: Tuple=(1, 3, 3, 1)
-    fused_modconv: bool=False
-    param_dict: h5py.Group=None
-    clip_conv: float=None
-    dtype: str='float32'
-    rng: Any=random.PRNGKey(0)
+    num_layers: int = 2
+    num_channels: int = 3
+    lr_multiplier: float = 1
+    activation: str = 'leaky_relu'
+    use_noise: bool = True
+    resample_kernel: Tuple = (1, 3, 3, 1)
+    fused_modconv: bool = False
+    param_dict: h5py.Group = None
+    clip_conv: float = None
+    dtype: str = 'float32'
+    rng: Any = random.PRNGKey(0)
 
     @nn.compact
     def __call__(self, x, y, dlatents_in, noise_mode='random', rng=random.PRNGKey(0)):
@@ -413,7 +436,7 @@ class SynthesisBlock(nn.Module):
 
         Args:
             x (tensor): Input tensor of shape [N, H, W, C].
-            y (tensor): Image of shape [N, H', W', fmaps]. 
+            y (tensor): Image of shape [N, H', W', fmaps].
             dlatents (tensor): Intermediate latents (W) of shape [N, num_ws, w_dim].
             noise_mode (str): Noise type.
                               - 'const': Constant noise.
@@ -428,7 +451,7 @@ class SynthesisBlock(nn.Module):
         init_rng = self.rng
         for i in range(self.num_layers):
             init_rng, init_key = random.split(init_rng)
-            x = SynthesisLayer(fmaps=self.fmaps, 
+            x = SynthesisLayer(fmaps=self.fmaps,
                                kernel=3,
                                layer_idx=self.res * 2 - (5 - i) if self.res > 2 else 0,
                                res=self.res,
@@ -445,13 +468,13 @@ class SynthesisBlock(nn.Module):
         if self.num_layers == 2:
             k = ops.setup_filter(self.resample_kernel)
             y = ops.upsample2d(y, f=k, up=2)
-        
+
         init_rng, init_key = random.split(init_rng)
-        y = ToRGBLayer(fmaps=self.num_channels, 
-                       layer_idx=self.res * 2 - 3, 
+        y = ToRGBLayer(fmaps=self.num_channels,
+                       layer_idx=self.res * 2 - 3,
                        lr_multiplier=self.lr_multiplier,
-                       param_dict=self.param_dict['torgb'] if self.param_dict is not None else None, 
-                       dtype=self.dtype, 
+                       param_dict=self.param_dict['torgb'] if self.param_dict is not None else None,
+                       dtype=self.dtype,
                        rng=init_key)(x, y, dlatents_in)
         return x, y
 
@@ -482,31 +505,31 @@ class SynthesisNetwork(nn.Module):
         rng (jax.random.PRNGKey): PRNG for initialization.
     """
     # Dimensionality
-    resolution: int=1024
-    num_channels: int=3
-    w_dim: int=512
+    resolution: int = 1024
+    num_channels: int = 3
+    w_dim: int = 512
 
     # Capacity
-    fmap_base: int=16384
-    fmap_decay: int=1
-    fmap_min: int=1
-    fmap_max: int=512
-    fmap_const: int=None
+    fmap_base: int = 16384
+    fmap_decay: int = 1
+    fmap_min: int = 1
+    fmap_max: int = 512
+    fmap_const: int = None
 
     # Pretraining
-    pretrained: str=None
-    param_dict: h5py.Group=None
-    ckpt_dir: str=None
+    pretrained: str = None
+    param_dict: h5py.Group = None
+    ckpt_dir: str = None
 
     # Internal details
-    activation: str='leaky_relu'
-    use_noise: bool=True
-    resample_kernel: Tuple=(1, 3, 3, 1)
-    fused_modconv: bool=False
-    num_fp16_res: int=0
-    clip_conv: float=None
-    dtype: str='float32'
-    rng: Any=random.PRNGKey(0)
+    activation: str = 'leaky_relu'
+    use_noise: bool = True
+    resample_kernel: Tuple = (1, 3, 3, 1)
+    fused_modconv: bool = False
+    num_fp16_res: int = 0
+    clip_conv: float = None
+    dtype: str = 'float32'
+    rng: Any = random.PRNGKey(0)
 
     def setup(self):
         self.resolution_ = self.resolution
@@ -516,7 +539,7 @@ class SynthesisNetwork(nn.Module):
             ckpt_file = utils.download(self.ckpt_dir, URLS[self.pretrained])
             self.param_dict_ = h5py.File(ckpt_file, 'r')['synthesis_network']
             self.resolution_ = RESOLUTION[self.pretrained]
-        
+
     @nn.compact
     def __call__(self, dlatents_in, noise_mode='random', rng=random.PRNGKey(0)):
         """
@@ -536,26 +559,32 @@ class SynthesisNetwork(nn.Module):
         resolution_log2 = int(np.log2(self.resolution_))
         assert self.resolution_ == 2 ** resolution_log2 and self.resolution_ >= 4
 
-        def nf(stage): return np.clip(int(self.fmap_base / (2.0 ** (stage * self.fmap_decay))), self.fmap_min, self.fmap_max)
-        num_layers = resolution_log2 * 2 - 2
-        
+        def nf(stage):
+            return np.clip(int(self.fmap_base / (2.0 ** (stage * self.fmap_decay))), self.fmap_min, self.fmap_max)
+
+        # num_layers = resolution_log2 * 2 - 2
+
         fmaps = self.fmap_const if self.fmap_const is not None else nf(1)
-        
+
         if self.param_dict_ is None:
             const = random.normal(self.rng, (1, 4, 4, fmaps), dtype=self.dtype)
         else:
             const = jnp.array(self.param_dict_['const'], dtype=self.dtype)
-        x = self.param(name='const', init_fn=lambda *_ : const)
+        x = self.param(name='const', init_fn=lambda *_: const)
         x = jnp.repeat(x, repeats=dlatents_in.shape[0], axis=0)
 
         y = None
 
         dlatents_in = dlatents_in.astype(jnp.float32)
-        
+
         init_rng = self.rng
         for res in range(2, resolution_log2 + 1):
             init_rng, init_key = random.split(init_rng)
-            x, y = SynthesisBlock(fmaps=nf(res - 1),
+            num_fmaps = nf(res - 1)
+            dtype = self.dtype if res > resolution_log2 - self.num_fp16_res else 'float32'
+            logger.debug(
+                f'Creating synthesis block {res} (resolution {2 ** res}) with {num_fmaps} fmaps and dtype {dtype}')
+            x, y = SynthesisBlock(fmaps=num_fmaps,
                                   res=res,
                                   num_layers=1 if res == 2 else 2,
                                   num_channels=self.num_channels,
@@ -563,9 +592,10 @@ class SynthesisNetwork(nn.Module):
                                   use_noise=self.use_noise,
                                   resample_kernel=self.resample_kernel,
                                   fused_modconv=self.fused_modconv,
-                                  param_dict=self.param_dict_[f'block_{2 ** res}x{2 ** res}'] if self.param_dict_ is not None else None,
+                                  param_dict=self.param_dict_[
+                                      f'block_{2 ** res}x{2 ** res}'] if self.param_dict_ is not None else None,
                                   clip_conv=self.clip_conv,
-                                  dtype=self.dtype if res > resolution_log2 - self.num_fp16_res else 'float32',
+                                  dtype=dtype,
                                   rng=init_key)(x, y, dlatents_in, noise_mode, rng)
 
         return y
@@ -604,40 +634,40 @@ class Generator(nn.Module):
         rng (jax.random.PRNGKey): PRNG for initialization.
     """
     # Dimensionality
-    resolution: int=1024
-    num_channels: int=3
-    z_dim: int=512
-    c_dim: int=0
-    w_dim: int=512
-    mapping_layer_features: int=512
-    mapping_embed_features: int=None
+    resolution: int = 1024
+    num_channels: int = 3
+    z_dim: int = 512
+    c_dim: int = 0
+    w_dim: int = 512
+    mapping_layer_features: int = 512
+    mapping_embed_features: int = None
 
     # Layers
-    num_ws: int=18
-    num_mapping_layers: int=8
+    num_ws: int = 18
+    num_mapping_layers: int = 8
 
     # Capacity
-    fmap_base: int=16384
-    fmap_decay: int=1
-    fmap_min: int=1
-    fmap_max: int=512
-    fmap_const: int=None
+    fmap_base: int = 16384
+    fmap_decay: int = 1
+    fmap_min: int = 1
+    fmap_max: int = 512
+    fmap_const: int = None
 
     # Pretraining
-    pretrained: str=None
-    ckpt_dir: str=None
+    pretrained: str = None
+    ckpt_dir: str = None
 
     # Internal details
-    use_noise: bool=True
-    activation: str='leaky_relu'
-    w_avg_beta: float=0.995
-    mapping_lr_multiplier: float=0.01
-    resample_kernel: Tuple=(1, 3, 3, 1)
-    fused_modconv: bool=False
-    num_fp16_res: int=0
-    clip_conv: float=None
-    dtype: str='float32'
-    rng: Any=random.PRNGKey(0)
+    use_noise: bool = True
+    activation: str = 'leaky_relu'
+    w_avg_beta: float = 0.995
+    mapping_lr_multiplier: float = 0.01
+    resample_kernel: Tuple = (1, 3, 3, 1)
+    fused_modconv: bool = False
+    num_fp16_res: int = 0
+    clip_conv: float = None
+    dtype: str = 'float32'
+    rng: Any = random.PRNGKey(0)
 
     def setup(self):
         self.resolution_ = self.resolution
@@ -653,9 +683,10 @@ class Generator(nn.Module):
         else:
             self.param_dict = None
         self.init_rng_mapping, self.init_rng_synthesis = random.split(self.rng)
-       
+
     @nn.compact
-    def __call__(self, z, c=None, truncation_psi=1, truncation_cutoff=None, skip_w_avg_update=False, train=True, noise_mode='random', rng=random.PRNGKey(0)):
+    def __call__(self, z, c=None, truncation_psi=1, truncation_cutoff=None, skip_w_avg_update=False, train=True,
+                 noise_mode='random', rng=random.PRNGKey(0)):
         """
         Run Generator.
 
@@ -685,10 +716,12 @@ class Generator(nn.Module):
                                      activation=self.activation,
                                      lr_multiplier=self.mapping_lr_multiplier,
                                      w_avg_beta=self.w_avg_beta,
-                                     param_dict=self.param_dict['mapping_network'] if self.param_dict is not None else None,
+                                     param_dict=self.param_dict[
+                                         'mapping_network'] if self.param_dict is not None else None,
                                      dtype=self.dtype,
                                      rng=self.init_rng_mapping,
-                                     name='mapping_network')(z, c, truncation_psi, truncation_cutoff, skip_w_avg_update, train)
+                                     name='mapping_network')(z, c, truncation_psi, truncation_cutoff, skip_w_avg_update,
+                                                             train)
 
         x = SynthesisNetwork(resolution=self.resolution_,
                              num_channels=self.num_channels,
@@ -710,4 +743,3 @@ class Generator(nn.Module):
                              name='synthesis_network')(dlatents_in, noise_mode, rng)
 
         return x
-
