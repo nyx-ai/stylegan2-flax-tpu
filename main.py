@@ -16,10 +16,9 @@ def main():
     parser = argparse.ArgumentParser()
     # Paths
     parser.add_argument('--data_dir', type=str, required=True, help='Directory of tfrecord files.')
-    parser.add_argument('--save_dir', type=str, required=True, help='Directory where checkpoints will be written to. A subfolder with the run ID will be created.')
+    parser.add_argument('--save_dir', type=str, default='checkpoints', help='Directory where checkpoints will be written to. A subfolder with the run ID will be created.')
     parser.add_argument('--load_from_ckpt', type=str, help='If provided, start training from an existing checkpoint.')
     parser.add_argument('--resume_run_id', type=str, help='If provided, resume existing training run. If --wandb is enabled W&B will also resume.')
-    parser.add_argument('--project', type=str, default='sg2-flax', help='Name of this project.')
     # Training
     parser.add_argument('--num_epochs', type=int, default=10000, help='Number of epochs.')
     parser.add_argument('--num_steps', type=int, default=1_000_000_000, help='Number of step to run.')
@@ -70,6 +69,7 @@ def main():
     parser.add_argument('--wandb', action='store_true', help='Log to Weights&Biases.')
     parser.add_argument('--name', type=str, default=None, help='Name of this experiment in Weights&Biases.')
     parser.add_argument('--entity', type=str, default=None, help='Entity for this experiment in Weights&Biases.')
+    parser.add_argument('--project', type=str, default='sg2-flax', help='Name of this project.')
     parser.add_argument('--group', type=str, default=None, help='Group name of this experiment for Weights&Biases.')
     # Debug
     parser.add_argument('--debug', action='store_true', help='Show debug log.')
