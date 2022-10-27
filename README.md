@@ -58,7 +58,7 @@ Specifically, the features we've added allow for better scaling of [StyleGAN2](h
 
 ## 🖼 Generate Images
 
-We released four 256x256 pretrained models: cookie, cheesecake, sushi and cocktail. Download them from the [latest release](https://github.com/nyx-ai/stylegan2-flax-tpu/releases).
+We released four 256x256 as well as 512x512 models. Download them from the [latest release](https://github.com/nyx-ai/stylegan2-flax-tpu/releases).
 
 ```
 python generate_images.py \
