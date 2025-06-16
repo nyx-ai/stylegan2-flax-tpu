@@ -2,7 +2,7 @@
 
 **We trained StyleGAN2 models to generate food pictures. The images below are all synthetic!**
 
-This work is done in partnership with the [Food & You](https://www.foodandyou.org/) project by the [Digital Epidemiology Lab](https://www.digitalepidemiologylab.org/) at [EPFL](https://www.epfl.ch/en/). In this context, we are researching the potential of synthetic data augmention for vision tasks.
+This work was done by [Martin Müller](https://www.martinmuller.me) and [Florian Laurent](https://masterscrat.github.io) in partnership with the [Food & You](https://www.foodandyou.org/) project by the [Digital Epidemiology Lab](https://www.digitalepidemiologylab.org/) at [EPFL](https://www.epfl.ch/en/). In this context, we are researching the potential of synthetic data augmention for vision tasks.
 
 This research is part of the technology underlying our AI-generated photography platform [Nyx.gallery](https://nyx.gallery/). You can also follow our work on [🐦 Twitter](https://twitter.com/NyxAI_Lab).
 
@@ -22,7 +22,7 @@ We have released a new and much improved model:
 
 - Single 5-class model (burger/cheesecake/cocktail/cookie/sushi) instead of 1-class models
 - Resolution of 512x512 instead of 256x256
-- Trained for much longer: 8 days at 256x256 then 28 days at 512x512 instead of 10 hours
+- Trained for much longer: 8 days at 256x256 then 28 days at 512x512 on a TPU v4-8
 - Trained on more data: 558k 512x512 images instead of 100k 256x256 images
 
 🍒 The sample above are cherry-picked: check out the [Colab notebook](https://colab.research.google.com/github/nyx-ai/stylegan2-flax-tpu/blob/master/notebook/image_generation.ipynb) to generate your own, or [train your own model](https://github.com/nyx-ai/stylegan2-flax-tpu).
